@@ -1,6 +1,5 @@
 from src.models.entities.music import Music
-from src.models.repositories import musics_repository
-
+from src.models.repositories.musics_repository import musics_repository
 
 class SongRegisterController:
     def insert(self, new_song_informations: dict) -> dict:
@@ -8,12 +7,12 @@ class SongRegisterController:
         try:
             self._verify_songs_infos(new_song_informations)
             self._verify_if_song_already_registered(new_song_informations)
-            self._verify_songs_infos(new_song_informations)
             self._insert_song(new_song_informations)
-            self._format_response(new_song_informations)
+
+            return self._format_response(new_song_informations)
 
         except Exception as e:
-            self.__format_error_response(e)
+            return self.__format_error_response(e)
 
     def _verify_songs_infos(self, new_song_informations: dict) -> None: # noqa
         if len(new_song_informations["title"]) > 100:
@@ -32,9 +31,9 @@ class SongRegisterController:
 
     def _insert_song(self, new_song_informations: dict) -> None:
         new_music = Music(
-            title=new_song_information["title"],
-            artist=new_song_information["artist"],
-            year=new_song_information["year"]
+            title=new_song_informations["title"],
+            artist=new_song_informations["artist"],
+            year=new_song_informations["year"]
         )
         musics_repository.insert_music(new_music)
 
@@ -43,7 +42,9 @@ class SongRegisterController:
             "success": True,
             "count": 1,
             "attributes": {
-                new_song_informations["title"]
+            "title": new_song_informations["title"],
+            "artist": new_song_informations["artist"],
+            "year": new_song_informations["year"]
             }
         }
 

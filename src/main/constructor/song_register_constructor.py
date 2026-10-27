@@ -7,7 +7,7 @@ def song_register_process():
 
     new_song_informations = song_register_view.registry_song_initial()
     response = song_register_controller.insert(new_song_informations)
-
+    print(response)
     if response["success"]:
         song_register_view.registry_song_success(response)
     else:
