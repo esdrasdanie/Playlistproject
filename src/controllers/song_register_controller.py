@@ -10,7 +10,7 @@ class SongRegisterController:
         except Exception as e:
             self.__format_error_response(e)
 
-    def _verify_if_song_already_registered(self, new_song_informations: dict) -> None:
+    def _verify_if_song_already_registered(self, new_song_informations: dict) -> None: # noqa
         if len(new_song_informations["title"]) > 100:
             raise Exception("Song title is too long")
 
@@ -18,7 +18,6 @@ class SongRegisterController:
         if year >= 2026:
             raise Exception("Song year is invalid")
         
-
     def _verify_songs_infos(self, new_song_informations: dict) -> None:
         pass
 
